@@ -12,10 +12,11 @@ sys.path.append(
 import numpy as np
 import matplotlib.pyplot as plt
 from model import ExtinctionCurve
+from astropy import units as u
 
 
 # Example wavelength grid (inverse micron)
-x = np.linspace(1.0, 8.0, 500)
+x = np.linspace(1.0, 8.0, 500)*u.micron**-1
 
 # Instantiate the model
 curve = ExtinctionCurve(x, rv=3.1)

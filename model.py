@@ -33,12 +33,8 @@ class ExtinctionCurve:
 
         if isinstance(self.x, self.u.Quantity):
             if self.u.get_physical_type(self.x.unit) == 'length':
-                # self.x = 1/self.x.to(self.u.micron)
-                # print(self.x.unit)
                 return(1/self.x.to(self.u.micron))
             elif self.u.get_physical_type(self.x.unit) == 'wavenumber':
-                # self.x = self.x.to(1/self.u.micron)
-                # print(self.x.unit)
                 return(self.x.to(1/self.u.micron))
             else:
                 raise ValueError("Input unit must be of type 'length' or 'wavenumber'.")
@@ -143,7 +139,5 @@ class ExtinctionCurve:
         # if x is None:
         #     x = self.x
         x = self.validate_input_units()
-        print(x)
-        print(x.unit)
         x = np.asarray(x)
         return self.a(x) + self.b(x) / self.rv
