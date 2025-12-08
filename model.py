@@ -1,6 +1,8 @@
 import numpy as np
 
 class ExtinctionCurve:
+    
+    from astropy import units as u
     """
     Extinction curve class implementing a parametric extinction law.
 
@@ -13,8 +15,36 @@ class ExtinctionCurve:
     """
 
     def __init__(self, x, rv=2.74):
-        self.x = np.asarray(x, dtype=float)
+        self.x = x
         self.rv = rv
+
+    #--------------------------
+    #Input unit validation
+    #-------------------------
+    def validate_input_units(self):
+        """
+        Verify if input has units specified. If yes then ensure it is inverse microns. Else throw warning.
+
+        Raises
+        ------
+        ValueError
+            If the input unit is not '1/micron'.
+        """
+
+        if isinstance(self.x, self.u.Quantity):
+            if self.u.get_physical_type(self.x.unit) == 'length':
+                # self.x = 1/self.x.to(self.u.micron)
+                # print(self.x.unit)
+                return(1/self.x.to(self.u.micron))
+            elif self.u.get_physical_type(self.x.unit) == 'wavenumber':
+                # self.x = self.x.to(1/self.u.micron)
+                # print(self.x.unit)
+                return(self.x.to(1/self.u.micron))
+            else:
+                raise ValueError("Input unit must be of type 'length' or 'wavenumber'.")
+        else:
+            raise ValueError("Input unit not specified.")
+
 
     # -------------------------
     # UV correction terms
@@ -96,7 +126,7 @@ class ExtinctionCurve:
     # -------------------------
     # Full extinction curve
     # -------------------------
-    def evaluate(self, x=None):
+    def evaluate(self):
         """
         Evaluate the extinction curve A(λ)/A(V).
 
@@ -110,8 +140,10 @@ class ExtinctionCurve:
         ndarray
             Extinction curve A(λ)/A(V).
         """
-        if x is None:
-            x = self.x
-
+        # if x is None:
+        #     x = self.x
+        x = self.validate_input_units()
+        print(x)
+        print(x.unit)
         x = np.asarray(x)
         return self.a(x) + self.b(x) / self.rv
