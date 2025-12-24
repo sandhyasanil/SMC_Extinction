@@ -49,7 +49,7 @@ class ExtinctionCurve:
         """UV correction term for A(x) at x >= 5.9."""
         return np.where(
             x >= 5.9,
-            1.0004e-03 * (x - 5.9)**2 + 1e-04 * (x - 5.9)**3,
+            0.05234 * (x - 5.9)**2 + 1e-04 * (x - 5.9)**3,
             0.0
         )
 
@@ -57,7 +57,7 @@ class ExtinctionCurve:
         """UV correction term for B(x) at x >= 5.9."""
         return np.where(
             x >= 5.9,
-            2.8548e-01 * (x - 5.9)**2 + 1e-04 * (x - 5.9)**3,
+            0.04273 * (x - 5.9)**2 + 1e-04 * (x - 5.9)**3,
             0.0
         )
 
@@ -81,12 +81,12 @@ class ExtinctionCurve:
             + 0.72085*y2**4 + 0.01979*y2**5 - 0.77530*y2**6 + 0.32999*y2**7
         )
 
-        # Region 3: UV (x > 3.2429)
-        mask3 = x > 3.2429
+        # Region 3: UV (x > 3.3)
+        mask3 = x > 3.3
         y[mask3] = (
-            -1.10895637
-            + 0.53314169 * x[mask3]
-            + 0.017348 / ((x[mask3] - 4.6)**2 + 0.2444)
+            0.5503
+            + 0.03266 * x[mask3]
+            + 0.007102 / ((x[mask3] - 4.6)**2 + 0.0714)
             + self.fa(x[mask3])
         )
 
@@ -109,11 +109,11 @@ class ExtinctionCurve:
         )
 
         # Region 3: UV
-        mask3 = x > 3.2429
+        mask3 = x > 3.3
         y[mask3] = (
-            1.01154931
-            + 0.76809458 * x[mask3]
-            + 0.047807 / ((x[mask3] - 4.6)**2 + 0.2444)
+            -3.6040
+            + 2.1618 * x[mask3]
+            + 0.007156 / ((x[mask3] - 4.6)**2 + 0.0714)
             + self.fb(x[mask3])
         )
 
