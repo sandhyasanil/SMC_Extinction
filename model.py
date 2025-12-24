@@ -72,8 +72,8 @@ class ExtinctionCurve:
         mask1 = x <= 1.1
         y[mask1] = 0.574 * x[mask1]**1.61
 
-        # Region 2: Optical/NIR (1.1 < x <= 3.2429)
-        mask2 = (x > 1.1) & (x <= 3.2429)
+        # Region 2: Optical/NIR (1.1 < x <= 3.3)
+        mask2 = (x > 1.1) & (x <= 3.3)
         y2 = x[mask2] - 1.82
         y[mask2] = (
             1
@@ -101,7 +101,7 @@ class ExtinctionCurve:
         y[mask1] = -0.527 * x[mask1]**1.61
 
         # Region 2: Optical/NIR
-        mask2 = (x > 1.1) & (x <= 3.2429)
+        mask2 = (x > 1.1) & (x <= 3.3)
         y2 = x[mask2] - 1.82
         y[mask2] = (
             1.41338*y2 + 2.28305*y2**2 + 1.07233*y2**3
